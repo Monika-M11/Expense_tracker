@@ -20,6 +20,7 @@ def get_user_by_email(
     )
 
 
+
 def create_user(
     db: Session,
     username: str,
@@ -147,16 +148,18 @@ def get_expense_report(db: Session, user_id: int):
     result = (
         db.query(
             func.coalesce(func.sum(Expense.amount), 0),
-            func.count(Expense.id)
+            func.count(Expense.id),
+            func.avg(Expense.amount)
         )
         .filter(Expense.user_id == user_id)
         .first()
     )
 
-    total_expense, expense_count = result
+    total_expense, expense_count ,expense_average = result
 
     return {
         "user_id": user_id,
         "total_expense": total_expense,
-        "expense_count": expense_count
+        "count": expense_count,
+        "average":expense_average
     }

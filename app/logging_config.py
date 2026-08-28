@@ -25,9 +25,9 @@ def setup_logging():
         "%(asctime)s | %(levelname)s | %(name)s | %(message)s"
     )
 
-    # -------------------------
+   
     # File Handler
-    # -------------------------
+
     file_handler = RotatingFileHandler(
         LOG_FILE,
         maxBytes=1024 * 1024,  # 1 MB
@@ -38,9 +38,9 @@ def setup_logging():
     file_handler.setLevel(logging.INFO)
     file_handler.setFormatter(formatter)
 
-    # -------------------------
+
     # Console Handler
-    # -------------------------
+
     console_handler = logging.StreamHandler()
 
     console_handler.setLevel(logging.INFO)

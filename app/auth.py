@@ -3,9 +3,9 @@ from datetime import datetime, timedelta, timezone
 
 from dotenv import load_dotenv
 from fastapi import Depends, HTTPException
-from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 from passlib.context import CryptContext
+from fastapi.security import HTTPBearer
 
 load_dotenv()
 
@@ -18,9 +18,11 @@ pwd_context = CryptContext(
     deprecated="auto"
 )
 
-oauth2_scheme = OAuth2PasswordBearer(
-    tokenUrl="/auth/login"
-)
+# oauth2_scheme = OAuth2PasswordBearer(
+#     tokenUrl="/auth/login"
+# )
+
+oauth2_scheme = HTTPBearer()
 
 
 def hash_password(password: str) -> str:
@@ -37,14 +39,14 @@ def verify_password(
     )
 
 
-def create_access_token(user_id: int) -> str:
+def create_access_token(username: str) -> str:
 
     expire = datetime.now(timezone.utc) + timedelta(
         minutes=ACCESS_TOKEN_EXPIRE_MINUTES
     )
 
     payload = {
-        "sub": str(user_id),
+        "sub": username,
         "exp": expire
     }
 
@@ -70,14 +72,18 @@ def decode_access_token(token: str):
             return None
 
         return int(user_id)
+    
 
     except (JWTError, ValueError):
         return None
 
 
+
 def get_current_user_id(
-    token: str = Depends(oauth2_scheme)
+    credentials = Depends(oauth2_scheme)
 ):
+    token = credentials.credentials
+
     user_id = decode_access_token(token)
 
     if user_id is None:

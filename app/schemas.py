@@ -5,6 +5,9 @@ from pydantic import BaseModel, Field
 
 
 
+
+
+
 #User creation
 class UserCreate(BaseModel):
     username: str = Field(..., min_length=3, max_length=100)
@@ -58,4 +61,5 @@ class ExpenseResponse(BaseModel):
 class ReportResponse(BaseModel):
     user_id: int
     total_expense: Decimal
-    expense_count: int
+    count: int
+    average:Decimal
