@@ -61,7 +61,7 @@ def register(
 
     new_user = create_user(
         db=db,
-        username=user.username,
+        username=user.user_id,
         email=user.email,
         password_hash=password_hash
     )
