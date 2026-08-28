@@ -33,6 +33,7 @@ logger = setup_logging()
 # FastAPI Application
 
 
+
 app = FastAPI(
     title="Expense Tracker API",
     description="Expense Tracker built using FastAPI and PostgreSQL",
@@ -49,6 +50,12 @@ app.include_router(report_router)
 
 
 
+
+@app.get("/")
+def root():
+    return {
+        "message": "Expense Tracker API is running"
+    }
 
 # CREATE EXPENSE
 
@@ -169,9 +176,8 @@ def read_expense(
     return expense
 
 
-# --------------------------------
 # UPDATE EXPENSE
-# --------------------------------
+
 
 @app.put(
     "/expenses/{expense_id}",
@@ -217,9 +223,9 @@ def edit_expense(
     return expense
 
 
-# --------------------------------
+
 # DELETE EXPENSE
-# --------------------------------
+
 
 @app.delete("/expenses/{expense_id}")
 def remove_expense(
