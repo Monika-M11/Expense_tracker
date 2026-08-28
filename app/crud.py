@@ -4,6 +4,8 @@ from .models import Expense,User
 
 from .schemas import ExpenseCreate, ExpenseUpdate
 
+from sqlalchemy import func
+
 
 
 #Create User
@@ -138,3 +140,23 @@ def delete_expense(
     db.commit()
 
     return expense
+
+#Report
+def get_expense_report(db: Session, user_id: int):
+
+    result = (
+        db.query(
+            func.coalesce(func.sum(Expense.amount), 0),
+            func.count(Expense.id)
+        )
+        .filter(Expense.user_id == user_id)
+        .first()
+    )
+
+    total_expense, expense_count = result
+
+    return {
+        "user_id": user_id,
+        "total_expense": total_expense,
+        "expense_count": expense_count
+    }

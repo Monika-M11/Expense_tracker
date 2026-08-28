@@ -20,19 +20,18 @@ from .schemas import (
 from .logging_config import setup_logging
 
 from .routes.auth import router as auth_router
+from .routes.report import router as report_router
 from .auth import get_current_user_id
 
 
-# --------------------------------
 # Logging
-# --------------------------------
+
 
 logger = setup_logging()
 
 
-# --------------------------------
 # FastAPI Application
-# --------------------------------
+
 
 app = FastAPI(
     title="Expense Tracker API",
@@ -41,44 +40,18 @@ app = FastAPI(
 )
 
 
-# --------------------------------
+
 # Routers
-# --------------------------------
+
 
 app.include_router(auth_router)
+app.include_router(report_router)
 
 
-# --------------------------------
-# Test Logging
-# --------------------------------
-
-@app.get("/test-log")
-def test_log():
-
-    logger.info("Test log message")
-
-    return {
-        "message": "Log test successful"
-    }
 
 
-# --------------------------------
-# Root
-# --------------------------------
-
-@app.get("/")
-def root():
-
-    logger.info("Root endpoint accessed")
-
-    return {
-        "message": "Expense Tracker API is running"
-    }
-
-
-# --------------------------------
 # CREATE EXPENSE
-# --------------------------------
+
 
 @app.post(
     "/expenses",
@@ -118,10 +91,8 @@ def add_expense(
 
         raise
 
-
-# --------------------------------
 # GET ALL EXPENSES
-# --------------------------------
+
 
 @app.get(
     "/expenses",
@@ -159,9 +130,8 @@ def read_expenses(
         raise
 
 
-# --------------------------------
 # GET EXPENSE BY ID
-# --------------------------------
+
 
 @app.get(
     "/expenses/{expense_id}",

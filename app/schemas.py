@@ -53,3 +53,9 @@ class ExpenseResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class ReportResponse(BaseModel):
+    user_id: int
+    total_expense: Decimal
+    expense_count: int
