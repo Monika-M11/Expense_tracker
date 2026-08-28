@@ -18,9 +18,6 @@ pwd_context = CryptContext(
     deprecated="auto"
 )
 
-# oauth2_scheme = OAuth2PasswordBearer(
-#     tokenUrl="/auth/login"
-# )
 
 oauth2_scheme = HTTPBearer()
 
