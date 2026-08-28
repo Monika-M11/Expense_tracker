@@ -24,16 +24,17 @@ from .routes.report import router as report_router
 from .auth import get_current_user_id
 
 
+
+from .database import get_db, Base, engine
+from . import models
+
+
+Base.metadata.create_all(bind=engine)
+
 # Logging
-
-
 logger = setup_logging()
 
-
 # FastAPI Application
-
-
-
 app = FastAPI(
     title="Expense Tracker API",
     description="Expense Tracker built using FastAPI and PostgreSQL",
